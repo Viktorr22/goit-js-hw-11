@@ -23,19 +23,18 @@ function onSubmit(evt) {
     return;
   }
   fetchPicture(
-    `?key=${KEY}&q=${formValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
+    `?key=${KEY}&q=${formValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=200&page=${page}`
   )
     .then(({ hits, total }) => {
       totalPages = Math.ceil(total / hits.length);
-      if (hits.length === 0) {
-        Notiflix.Notify.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
-        return;
-      }
       createMarkup(hits);
       Notiflix.Notify.info(`Hooray! We found ${total} images.`);
-      loadButton.style.display = 'block';
+
+      if (page === totalPages) {
+        loadButton.style.display = 'none';
+      } else {
+        loadButton.style.display = 'block';
+      }
     })
     .catch(err => console.log(err));
 }
@@ -43,15 +42,13 @@ function onSubmit(evt) {
 function onLoad() {
   page += 1;
   fetchPicture(
-    `?key=${KEY}&q=${formValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
+    `?key=${KEY}&q=${formValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=200&page=${page}`
   )
     .then(({ hits }) => {
       createMarkup(hits);
     })
     .catch(err => console.log(err));
 
-  console.log(page);
-  console.log(totalPages);
   if (page === totalPages) {
     loadButton.style.display = 'none';
     Notiflix.Notify.info(
