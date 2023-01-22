@@ -23,7 +23,7 @@ function onSubmit(evt) {
     return;
   }
   fetchPicture(
-    `?key=${KEY}&q=${formValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=200&page=${page}`
+    `?key=${KEY}&q=${formValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
   )
     .then(({ hits, total }) => {
       totalPages = Math.ceil(total / hits.length);
@@ -42,7 +42,7 @@ function onSubmit(evt) {
 function onLoad() {
   page += 1;
   fetchPicture(
-    `?key=${KEY}&q=${formValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=200&page=${page}`
+    `?key=${KEY}&q=${formValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${page}`
   )
     .then(({ hits }) => {
       createMarkup(hits);
